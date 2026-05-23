@@ -37,6 +37,16 @@
                 />
 
             <EditText
+                android:id="@+id/username"
+                android:layout_width="300dp"
+                android:layout_height="70dp"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/white"
+                android:text="Username"
+                />
+
+            <EditText
                 android:id="@+id/password"
                 android:layout_width="300dp"
                 android:layout_height="70dp"
@@ -45,11 +55,11 @@
                 android:textColor="@color/white"
                 android:text="Password" />
 
-            <Button
-                android:id="@+id/login"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:text="Log In"/>
+<!--            <Button-->
+<!--                android:id="@+id/login"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:text="Log In"/>-->
             <Button
                 android:id="@+id/Register"
                 android:layout_width="150dp"

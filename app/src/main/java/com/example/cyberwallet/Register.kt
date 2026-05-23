@@ -1,59 +1,86 @@
 package com.example.cyberwallet
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Register.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Register : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
+        val view = inflater.inflate(R.layout.fragment_register, container, false)
+
+        val db = UserDatabase.getDatabase(requireContext().applicationContext)
+        val userDao = db.userDao()
+
+        val email: EditText = view.findViewById(R.id.email)
+        val username: EditText = view.findViewById(R.id.username)
+        val password: EditText = view.findViewById(R.id.password)
+
+//        Register Button
+        val register: Button = view.findViewById(R.id.Register)
+
+
+
+//        Register Button.
+        register.setOnClickListener {
+
+//            Handles Exceptions try catch block.
+
+            try {
+                // Code that might cause an error
+            } catch (e: Exception) {
+                // Code to run if an error happens
+            } finally {
+                // (Optional) Code that runs no matter what
+            }
+
+
+//        Data Validation And Encryption.
+
+            if (email.text.toString() != "" || password.text.toString() != "" || username.text.toString() != ""  ){
+
+//                Then Continue here with registration and move to the next activity.
+
+                // Saving data to the database
+                lifecycleScope.launch {
+                    userDao.insert(User(email = email.text.toString(),
+                        name = username.text.toString(),
+                        password = password.text.toString()))
+
+                }
+
+//            Switch Activities
+                val intent = Intent(requireContext(), Center::class.java)
+                startActivity(intent)
+
+            }else{
+
+            }
+
+
+
+        }
+
+
+
+
+
+
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Register.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Register().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

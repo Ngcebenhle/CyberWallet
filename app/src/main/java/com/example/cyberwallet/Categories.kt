@@ -1,19 +1,30 @@
 package com.example.cyberwallet
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 
-class Center : AppCompatActivity() {
+class Categories : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_center)
+        setContentView(R.layout.activity_categories)
         SetUpTabBar()
+
+        val fab: View = findViewById(R.id.fab)
+        fab.setOnClickListener {
+
+            val modal = MyModalSheet()
+            modal.show(supportFragmentManager, MyModalSheet.TAG)
+
+        }
+
 
 
     }
@@ -21,7 +32,7 @@ class Center : AppCompatActivity() {
         val tablayout = findViewById<TabLayout>(R.id.tabLayout)
         val viewPager = findViewById<ViewPager2>(R.id.viewPager2)
 
-        val  adapterr = CenterViewAdapter(this, tablayout.tabCount)
+        val  adapterr = CategoriesViewAdapter(this, tablayout.tabCount)
         viewPager.adapter = adapterr
 
         viewPager.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
