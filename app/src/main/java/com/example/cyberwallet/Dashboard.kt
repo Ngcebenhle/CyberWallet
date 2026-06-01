@@ -29,6 +29,9 @@ class Dashboard : Fragment() {
 
         seeMore.setOnClickListener {
 //            Navigate to Stats in Detail Page
+
+            val intent = Intent(requireContext(), CategoriesView::class.java)
+            startActivity(intent)
         }
 
         val lineChart : LineChart = view.findViewById(R.id.lineChart)
@@ -59,6 +62,8 @@ class Dashboard : Fragment() {
 
         }
 
+
+
         return view
     }
 
@@ -66,40 +71,6 @@ class Dashboard : Fragment() {
 }
 
 
-// Chart Data
-
-//        val lineChart: LineChart = findViewById(R.id.lineChart)
-//
-//        // 1. Create a list of Entries (x, y)
-//        // Data must be sorted by X value to avoid rendering errors
-//        val entries = mutableListOf<Entry>()
-//        entries.add(Entry(0f, 10f))
-//        entries.add(Entry(1f, 15f))
-//        entries.add(Entry(2f, 8f))
-//        entries.add(Entry(3f, 20f))
-//
-//        // 2. Create LineDataSet and style it
-//        val lineDataSet = LineDataSet(entries, "My Data Label")
-//        lineDataSet.color = Color.BLUE
-//        lineDataSet.setCircleColor(Color.RED)
-//        lineDataSet.lineWidth = 2f
-//        lineDataSet.circleRadius = 5f
-//        lineDataSet.setDrawCircleHole(true)
-//        lineDataSet.valueTextSize = 10f
-//
-//        // 3. Create LineData with the dataset
-//        val lineData = LineData(lineDataSet)
-//
-//        // 4. Set data to chart and refresh
-//        lineChart.data = lineData
-//        lineChart.description.isEnabled = false // Disable description label
-//        lineChart.animateX(1000) // Simple entry animation
-//        lineChart.invalidate() // Refreshes the chart
-//
-//
-//
-//
-//
 
 
 

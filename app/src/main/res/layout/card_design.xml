@@ -100,147 +100,61 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/addExpenseOrIncomeForm"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
         android:background="@drawable/background">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-
-            <EditText
-                android:id="@+id/amount"
-                android:layout_width="150dp"
-                android:layout_height="48dp"
-                android:ems="10"
-                android:inputType="numberDecimal"
-                android:hint="2000,00"
-                android:textColorHint="@color/white"/>
-
-            <EditText
-                android:id="@+id/Description"
-                android:layout_width="300dp"
-                android:layout_height="48dp"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Descripton"
-                android:textColorHint="@color/white"/>
-
-            <LinearLayout
-                android:id="@+id/dates"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <EditText
-                    android:id="@+id/startDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="date"
-                    android:hint="Start Date"
-                    android:layout_marginRight="25dp"
-                    android:textColorHint="@color/white"
-                    />
-
-                <EditText
-                    android:id="@+id/endDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="date"
-                    android:hint="End Date"
-                    android:textColorHint="@color/white"
-                    />
-            </LinearLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/extraInformation"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:background="@drawable/background"
-
-                >
-
-
-                <EditText
-                    android:id="@+id/payer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="16dp"
-                    android:ems="10"
-                    android:hint="Payer"
-                    android:textColorHint="@color/white"
-                    android:inputType="text"
-
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.094"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/account"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:ems="10"
-                    android:hint="Account"
-                    android:textColorHint="@color/white"
-                    android:inputType="number"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.094"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/payer"
-                    app:layout_constraintVertical_bias="0.203" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
-                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="House Savings :"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"/>
 
                 <ImageView
-                    android:id="@+id/reciptImage"
-                    android:layout_width="100dp"
-                    android:layout_height="90dp"
-                    android:visibility="invisible"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/border"/>
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/profile_image" />
 
-                <ImageView
-                    android:id="@+id/addImageIcon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="100dp"
-                    android:src="@drawable/photo_icon"
-                    />
-
-                <Button
-                    android:id="@+id/saveButton"
-                    android:layout_width="100dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-
-                    android:text="Save"
-
-                    />
-
-
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="R 2000.00"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"/>
 
             </LinearLayout>
+
 
         </LinearLayout>
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

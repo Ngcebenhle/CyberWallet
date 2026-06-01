@@ -23,11 +23,21 @@
         android:layout_height="400dp"
         >
 
+
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:gravity="center"
            android:orientation="vertical">
+
+           <TextView
+               android:id="@+id/errorLogIn"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Error: Please Re-check Your Log In Credentials and Try Again."
+               android:textColor="@color/red"
+               android:textSize="20dp"
+               android:visibility="gone"/>
 
            <EditText
                android:id="@+id/email"
@@ -53,14 +63,15 @@
                android:layout_width="150dp"
                android:layout_height="50dp"
                android:text="Log In"
-               android:alpha="0.5"/>
+               android:backgroundTint="#4A7FA7"
+             />
 
-           <Button
-               android:id="@+id/Register"
-               android:layout_width="150dp"
-               android:layout_height="50dp"
-               android:text="Register"
-               android:background="@android:color/transparent"/>
+<!--           <Button-->
+<!--               android:id="@+id/Register"-->
+<!--               android:layout_width="150dp"-->
+<!--               android:layout_height="50dp"-->
+<!--               android:text="Register"-->
+<!--               android:background="@android:color/transparent"/>-->
 
        </LinearLayout>
 

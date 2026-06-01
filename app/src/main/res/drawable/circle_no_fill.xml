@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- No fill: Set color to transparent -->
+    <solid android:color="@android:color/transparent" />
+
+    <!-- The outline: Set your desired color and width -->
+    <stroke
+        android:width="1dp"
+        android:color="@color/white" /> <!-- Example: Red border -->
+
+    <!-- Optional: Set fixed dimensions -->
+
+</shape>

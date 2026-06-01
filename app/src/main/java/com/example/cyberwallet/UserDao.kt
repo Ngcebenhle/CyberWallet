@@ -1,10 +1,13 @@
 package com.example.cyberwallet
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
+
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: User)
 
@@ -20,12 +23,13 @@ interface UserDao {
     @Query("SELECT * FROM user_table ORDER BY id ASC")
     fun getAllUsers(): Flow<List<User>>
 
-    @Query("SELECT * FROM user_table ORDER BY id ASC")
-    fun getAllIncome(): Flow<List<User>>
+
+    @Query("SELECT * FROM Caregories WHERE InorEx = :income ")
+    fun getAllIncome(income: String = "Income"): Flow<List<Caregories>>
 
 
-    @Query("SELECT * FROM ExpensesTable ")
-   suspend fun getAllExpense(): List<ExpensesTable>
+    @Query("SELECT * FROM Caregories WHERE InorEx = :Expense ")
+   fun getAllExpense(Expense: String = "Expense"): Flow<List<Caregories>>
 
 
     @Query("SELECT id FROM user_table WHERE email =:Email AND password = :Password")

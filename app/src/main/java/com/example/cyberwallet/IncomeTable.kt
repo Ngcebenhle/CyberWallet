@@ -2,11 +2,10 @@ package com.example.cyberwallet
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
 import java.util.Date
 
 @Entity
-data class ExpensesTable(
+data class IncomeTable(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val userID: Int,
@@ -17,5 +16,4 @@ data class ExpensesTable(
     val payer: String,
     val account: Int,
     val recurring: Boolean?
-
 )

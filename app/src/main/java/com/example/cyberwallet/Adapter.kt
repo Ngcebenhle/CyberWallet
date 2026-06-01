@@ -40,11 +40,13 @@ class Adapter(private val list: List<Item>):
         // sets the text to the textview from our itemHolder class
         holder.textView.text = item.text
 
+        holder.CategoryName.text = item.catName
+
 
 
 //        holder.form.visibility = View.GONE
         holder.extendButton.setOnClickListener {
-
+//
             if(holder.form.visibility == View.GONE ){
 
                 holder.form.visibility = View.VISIBLE
@@ -105,13 +107,18 @@ class Adapter(private val list: List<Item>):
 
 
         // List of form CV
-//        val amount : EditText = itemView.findViewById(R.id.amount)
-//        val description : EditText = itemView.findViewById(R.id.Description)
-//        val startDate : EditText = itemView.findViewById(R.id.startDate)
-//        val endDate : EditText = itemView.findViewById(R.id.endDate)
-//        val reciptImage : ImageView = itemView.findViewById(R.id.reciptImage)
-//        val addImageIcon : ImageView = itemView.findViewById(R.id.addImageIcon)
-//        val saveButton : Button = itemView.findViewById(R.id.saveButton)
+        val amount : EditText = itemView.findViewById(R.id.amount)
+        val description : EditText = itemView.findViewById(R.id.Description)
+        val startDate : EditText = itemView.findViewById(R.id.startDate)
+        val endDate : EditText = itemView.findViewById(R.id.endDate)
+        val reciptImage : ImageView = itemView.findViewById(R.id.reciptImage)
+        val addImageIcon : ImageView = itemView.findViewById(R.id.addImageIcon)
+        val saveButton : Button = itemView.findViewById(R.id.saveButton)
+
+
+        val CategoryName : TextView = itemView.findViewById(R.id.catName)
+
+
 
 //        init {
 //            saveButton.setOnClickListener(this)
@@ -130,8 +137,6 @@ class Adapter(private val list: List<Item>):
 
 
     }
-
-
 
     interface adaptarEventListener {
 

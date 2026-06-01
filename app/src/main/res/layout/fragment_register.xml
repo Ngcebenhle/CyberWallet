@@ -16,6 +16,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/errorRegistration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please Fill In all Field"
+        android:layout_gravity="center"
+        android:textColor="@color/red"
+        android:textSize="15sp"
+        android:visibility="gone"/>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
@@ -64,7 +76,8 @@
                 android:id="@+id/Register"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:text="Register"/>
+                android:text="Register"
+                android:backgroundTint="@color/buttonsBackgroud"/>
 
         </LinearLayout>
 

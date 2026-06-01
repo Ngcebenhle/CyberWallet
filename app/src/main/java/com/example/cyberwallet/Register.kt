@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
@@ -31,6 +32,7 @@ class Register : Fragment() {
 
 //        Register Button
         val register: Button = view.findViewById(R.id.Register)
+        val error: TextView = view.findViewById(R.id.errorRegistration)
 
 
 
@@ -40,35 +42,44 @@ class Register : Fragment() {
 //            Handles Exceptions try catch block.
 
             try {
-                // Code that might cause an error
-            } catch (e: Exception) {
-                // Code to run if an error happens
-            } finally {
-                // (Optional) Code that runs no matter what
-            }
+                //        Data Validation And Encryption.
 
+                if (email.text.toString() != ""
+                    && password.text.toString() != ""
+                    && username.text.toString() != ""  ){
 
-//        Data Validation And Encryption.
+                     //  Then Continue here with registration and move to the next activity.
 
-            if (email.text.toString() != "" || password.text.toString() != "" || username.text.toString() != ""  ){
+                    try {
+                        // Saving data to the database
+                        lifecycleScope.launch {
+                            userDao.insert(User(email = email.text.toString(),
+                                name = username.text.toString(),
+                                password = password.text.toString()))
 
-//                Then Continue here with registration and move to the next activity.
+                        }
 
-                // Saving data to the database
-                lifecycleScope.launch {
-                    userDao.insert(User(email = email.text.toString(),
-                        name = username.text.toString(),
-                        password = password.text.toString()))
+                        //   Switch Activities
+                        val intent = Intent(requireContext(), Center::class.java)
+                        startActivity(intent)
+                    }catch (e: Exception){
+                        error.visibility = View.VISIBLE
+                        error.text = "Failed To Register"
+                    }
+
+                }else{
+
+                    error.visibility = View.VISIBLE
 
                 }
+            } catch (e: Exception) {
 
-//            Switch Activities
-                val intent = Intent(requireContext(), Center::class.java)
-                startActivity(intent)
 
-            }else{
 
             }
+
+
+
 
 
 
