@@ -8,11 +8,16 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Switch
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
@@ -24,7 +29,10 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.sql.Date
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.Calendar
 import java.util.Locale
 import kotlin.getValue
@@ -34,6 +42,19 @@ class newRecord : AppCompatActivity() {
     private val calendar = Calendar.getInstance()
     private lateinit var takePictureLauncher: ActivityResultLauncher<Uri>
     private var imageUri: Uri? = null
+
+    private var UserId: Int? = null
+    private var selectedDate: Date? = null
+
+    var startsDay: String? = null
+    var startYear: String? = null
+    var startMonth: String? = null
+
+
+    var endDay: String? = null
+    var endYear: String? = null
+    var endMonth: String? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +70,9 @@ class newRecord : AppCompatActivity() {
             MyViewModelFactory(repository)
         }
 
+        val id = intent.getStringExtra("USER_ID")
+        Log.d("userId_in_record", "${id}")
+
 //         val viewModel: UserViewModel by viewModels()
 
         val reciptImage : ImageView = findViewById(R.id.reciptImage)
@@ -58,6 +82,8 @@ class newRecord : AppCompatActivity() {
             if (success) {
                 // Use the imageUri to display or process the photo
                 reciptImage.setImageURI(imageUri)
+
+                // Store the image into a variable
             }
         }
 
@@ -65,19 +91,63 @@ class newRecord : AppCompatActivity() {
 
         val amount : EditText = findViewById(R.id.amount)
         val description : EditText = findViewById(R.id.Description)
-        val startDate : EditText = findViewById(R.id.startDate)
-        val endDate : EditText = findViewById(R.id.endDate)
+        val Category : EditText = findViewById(R.id.categoryName)
+
+        val payer : EditText = findViewById(R.id.payer)
+        val account : EditText = findViewById(R.id.account)
+
+
+        val startDate: TextView = findViewById(R.id.startDate)
+        val endDate: TextView = findViewById(R.id.endDate)
 
         startDate.setOnClickListener {
-            showDatePicker()
+            //     Start Date, using Date picker
+//            showDatePicker()
+
+            val cal = Calendar.getInstance()
+            DatePickerDialog(this, { _, year, month, day ->
+                // Note: 'month' is still 0-indexed here
+                val dateString = "$day/${month + 1}/$year"
+                // Use dateString...
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+
+            startsDay = cal.get(Calendar.DAY_OF_MONTH).toString()
+             startYear = cal.get(Calendar.YEAR).toString()
+            startMonth = (cal.get(Calendar.MONTH ) + 1).toString()
+
+            startDate.text = "${startsDay}/ ${startMonth} / ${startYear} "
+
+            Log.d("date", startMonth + " " + startYear + " " + startsDay)
+
+//
+
         }
 
         endDate.setOnClickListener {
-            showDatePicker()
+            //    End Date, using Date picker
+//            showDatePicker()
+
+
+            val cal = Calendar.getInstance()
+
+
+            DatePickerDialog(this, { _, year, month, day ->
+                // Note: 'month' is still 0-indexed here
+                val dateString = "$day/${month + 1}/$year"
+                // Use dateString...
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+
+            endDay = cal.get(Calendar.DAY_OF_MONTH).toString()
+            endYear = cal.get(Calendar.YEAR).toString()
+            endMonth = (cal.get(Calendar.MONTH ) + 1).toString()
+
+            endDate.text = "${endDay}/${endMonth}/ ${endYear}"
+
+            Log.d("date", endMonth+ " " + endYear + " " + endMonth)
+
         }
 
         val addImageIcon : ImageView = findViewById(R.id.addImageIcon)
-
         val saveButton : Button = findViewById(R.id.saveButton)
 
         addImageIcon.setOnClickListener {
@@ -91,45 +161,121 @@ class newRecord : AppCompatActivity() {
 //            startActivity(intent)
         }
 
-
+//        viewModel.data.observe(this){
+//                id ->
+//            UserId = id
+//
+//            Log.d("id from viewModel Inside ","${UserId}")
+//        }
+//
+//        Log.d("id from New Record ","${UserId}")
 
         saveButton.setOnClickListener {
 
-//          val  data  =  viewModel.data.observe(this){ d->
-//              Log.d("userId", "${d}")
-//          }
+            Log.d("save ", "Start Saved")
+//
+             val startdateconv = startYear+startMonth+startsDay
+            val StartD:Long = startdateconv.toLong()
+//
+            val enddateconv = endYear+endMonth+endDay
+            val endD:Long = enddateconv.toLong()
 
-
-
-                viewModel.insertExpense(ExpensesTable(
-                    userID = 1,
-                    categoryName = "Transport",
-                    startDate = Date(2020-12-13),
-                    endDate = Date(2020-12-13),
+            viewModel.insertExpense(
+                ExpensesTable(
+                    userID = id.toString().toInt(),
+                    amount = amount.text.toString().toInt(),
+                    categoryName = Category.text.toString(),
+                    startDate = Date(StartD),
+                    endDate = Date(endD),
                     description = description.text.toString(),
-                    payer = "mom",
-                    account = 2233837,
-                    recurring = true))
+                    payer = payer.text.toString(),
+                    account = account.text.toString().toInt(),
+                    startday = startsDay.toString().toInt(),
+                    startmonth = startMonth.toString().toInt(),
+                    startyear = startYear.toString().toInt(),
+                    endday = endDay.toString().toInt(),
+                    endmonth = endMonth.toString().toInt(),
+                    endyear = endYear.toString().toInt(),
+                    recurring = true,
+                    image = imageUri.toString()
+                ))
+            Log.d("save ", "Saved")
+
+//            val mySwitch = findViewById<Switch>(R.id.switchRec)
+//            mySwitch.setOnCheckedChangeListener { _, isChecked ->
+//                if (isChecked) {
+//                    // Action for ON state
+//                    viewModel.insertExpense(
+//                        ExpensesTable(
+//                            userID = id.toString().toInt(),
+//                            amount = amount.text.toString().toInt(),
+//                            categoryName = Category.text.toString(),
+//                            startDate = Date(2022-5-21),
+//                            endDate = Date(2022-5-21),
+//                            description = description.text.toString(),
+//                            payer = payer.text.toString(),
+//                            account = account.text.toString().toInt(),
+//                            recurring = true))
+//                    Log.d("save ", "Saved")
 //
-//            lifecycleScope.launch {
-//                userDao.insertExpense(
-//                    ExpensesTable(userID = 1,
-//                    categoryName = "Transport",
-//                    startDate = Date(2020-12-13),
-//                    endDate = "20/03/2020",
-//                    description = "This is a test",
-//                    payer = "mom",
-//                    account = 2233837,
-//                    recurring = true),)
+//                }
+//                else {
 //
+//                    // Action for OFF state
+//                    viewModel.insertExpense(
+//                        ExpensesTable(
+//                            userID = id.toString().toInt(),
+//                            amount = amount.text.toString().toInt(),
+//                            categoryName = Category.text.toString(),
+//                            startDate = Date(2022-5-21),
+//                            endDate = Date(2022-5-21),
+//                            description = description.text.toString(),
+//                            payer = payer.text.toString(),
+//                            account = account.text.toString().toInt(),
+//                            recurring = false))
+//
+//                    Log.d("save ", "Saved")
+//                }
 //            }
 
 
+
+
+//            if (amount.text.toString().toInt() != 0 && description.text.toString() != ""){
+//
+//
+//
+//                val radioGroup:RadioGroup = findViewById(R.id.category)
+//                val selectedId = radioGroup.checkedRadioButtonId
+//
+//                if (selectedId != -1) {
+//                    // Find the RadioButton view by the ID
+//                    val radioButton: RadioButton =findViewById(selectedId)
+//                    val selectedValue = radioButton.text.toString()
+//
+//                    viewModel.insertExpense(
+//                        ExpensesTable(
+//                            userID = 1,
+//                            amount = amount.text.toString().toInt(),
+//                            categoryName = selectedValue,
+//                            startDate = Date(2020-12-13),
+//                            endDate = Date(2020-12-13),
+//                            description = description.text.toString(),
+//                            payer = payer.toString(),
+//                            account = account.toString().toInt(),
+//                            recurring = true))
+//
+//                    Log.d("save ", "Saved")
+//
+//                }
+//            }
+
             //Switch Pages
-            val intent = Intent(this, Categories::class.java)
+            val intent = Intent(this, Categories::class.java).apply {
+                putExtra("USER_ID",id)
+            }
             startActivity(intent)
         }
-
 
     }
 

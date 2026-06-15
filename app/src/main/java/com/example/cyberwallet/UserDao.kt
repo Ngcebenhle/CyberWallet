@@ -3,6 +3,7 @@ package com.example.cyberwallet
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 @Dao
 interface UserDao {
@@ -23,6 +24,13 @@ interface UserDao {
     @Query("SELECT * FROM user_table ORDER BY id ASC")
     fun getAllUsers(): Flow<List<User>>
 
+
+    @Query("SELECT * FROM ExpensesTable WHERE startDate = :startDate AND endDate = :endDate")
+    fun getAllRecWithDates(startDate: Date,endDate: Date ): Flow<List<ExpensesTable>>
+
+
+    @Query("SELECT * FROM ExpensesTable")
+    fun getAllRec(): Flow<List<ExpensesTable>>
 
     @Query("SELECT * FROM Caregories WHERE InorEx = :income ")
     fun getAllIncome(income: String = "Income"): Flow<List<Caregories>>

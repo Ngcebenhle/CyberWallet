@@ -113,12 +113,15 @@
                android:layout_marginLeft="20dp">
 
                <ImageView
+                   android:id="@+id/searchRecords"
                    android:layout_width="25dp"
                    android:layout_height="25dp"
                    android:src="@drawable/baseline_search_24"
                    android:layout_gravity="center"
                    android:layout_marginLeft="3dp"/>
            </LinearLayout>
+
+
 
        </LinearLayout>
 
@@ -135,16 +138,16 @@
            android:id="@+id/recyclerview"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           tools:listitem="@layout/card_design" />
+           tools:listitem="@layout/card_view_design" />
 
 
    </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp" />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/fab"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="end|bottom"-->
+<!--        android:layout_margin="16dp" />-->
 
 </FrameLayout>

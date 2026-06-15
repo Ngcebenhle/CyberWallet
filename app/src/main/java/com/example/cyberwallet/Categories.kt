@@ -20,12 +20,27 @@ class Categories : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_categories)
 
+
+
+        val id = intent.getStringExtra("USER_ID")
+        Log.d("userId_in_cat", "${id}")
+
+
+
         val db = UserDatabase.getDatabase(applicationContext)
         val userDao = db.userDao()
 
         val repository by lazy { UserRepository(db.userDao()) }
         val viewModel: UserViewModel by viewModels{
             MyViewModelFactory(repository)
+        }
+
+        viewModel.setUser(id.toString().toInt())
+
+        viewModel.data.observe(this){
+                id ->
+            println(id)
+            Log.d("id_in_Activity","${id}")
         }
 
         viewModel.allExpenses.observe(this) { users ->
@@ -69,6 +84,9 @@ class Categories : AppCompatActivity() {
 //            }
 //            adapter.submitList(users)
         }
+
+
+
 
         SetUpTabBar()
 

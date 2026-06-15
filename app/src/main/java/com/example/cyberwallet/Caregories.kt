@@ -13,5 +13,7 @@ data class Caregories(
     val UserID: Int,
     val InorEx: String,
     val CategoryName: String,
-    val dateCreated: String
+    val dateCreated: String,
+    val MaxGoalAmount:Int,
+    val MinGoalAmount:Int
 )

@@ -78,6 +78,14 @@ class Expenses : Fragment() {
 
 
 
+        viewModel.data.observe(viewLifecycleOwner) { message ->
+            // Handle your data here
+            println(message)
+            Log.d("UserId_in_stat", "${message}")
+
+        }
+        Log.d("UserId_out_stat", "its a dud")
+
 //        for (i in 1..1) {
 //            data.add(Item(R.drawable.add,
 //                "Item", "New------")

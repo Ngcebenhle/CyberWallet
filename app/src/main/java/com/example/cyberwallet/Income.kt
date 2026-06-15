@@ -99,13 +99,25 @@ class Income : Fragment() {
 //            startActivity(intent)
 //        }
 
-        val newRecordButton: View = view.findViewById(R.id.newRecord)
-        newRecordButton.setOnClickListener {
+        viewModel.data.observe(viewLifecycleOwner) { message ->
+            // Handle your data here
+            println(message)
+            Log.d("UserId_in_stat", "${message}")
 
 
-            val intent = Intent(requireContext(), newRecord::class.java)
-            startActivity(intent)
+            val newRecordButton: View = view.findViewById(R.id.newRecord)
+            newRecordButton.setOnClickListener {
+
+
+                val intent = Intent(requireContext(), newRecord::class.java).apply {
+                    putExtra("USER_ID", "${message}")
+                }
+                startActivity(intent)
+            }
+
         }
+        Log.d("UserId_out_stat", "its a dud")
+
 
 
         return view

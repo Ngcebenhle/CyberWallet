@@ -1,5 +1,6 @@
 package com.example.cyberwallet
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,7 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
     fun setUser(newValue: Int) {
 
         UserId.value = newValue
+
     }
 
 
@@ -33,6 +35,10 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         val allExpenses: LiveData<List<Caregories>> = repository.allExpenses.asLiveData()
 
         val allIncome: LiveData<List<Caregories>> = repository.allIncome.asLiveData()
+
+    val getAllRecords: LiveData<List<ExpensesTable>> = repository.getAllRecords.asLiveData()
+
+
 
 
 //    val allIncome: LiveData<List<ExpensesTable>> = repository.allExpenses.asLiveData()

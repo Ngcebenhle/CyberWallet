@@ -10,7 +10,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter(private val list: List<Item>):
+class Adapter(private val list: List<Item>,
+//              private val listener: adaptarEventListener
+):
     RecyclerView.Adapter<Adapter.ViewHolder>(){
 
 
@@ -29,8 +31,6 @@ class Adapter(private val list: List<Item>):
 
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-
 
         val item = list[position]
 
@@ -92,7 +92,10 @@ class Adapter(private val list: List<Item>):
     }
 
     // Holds the views for adding it to image and text
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+//        ,
+//        View.OnClickListener
+          {
 
 
 
@@ -124,15 +127,14 @@ class Adapter(private val list: List<Item>):
 //            saveButton.setOnClickListener(this)
 //        }
 //
+//        override fun onClick(p0: View?) {
+//            val position = adapterPosition
+//            if(position != RecyclerView.NO_POSITION){
 //
-////        override fun onClick(p0: View?) {
-////           val position = adapterPosition
-////            if(position != RecyclerView.NO_POSITION){
-//////                listener.onClickSaveButton(position)
-////
-////            }
+//                listener.onClickSaveButton(position)
+//
+//            }
 //        }
-
 
 
 
@@ -140,7 +142,8 @@ class Adapter(private val list: List<Item>):
 
     interface adaptarEventListener {
 
-        fun onClickSaveButton(position: Int) // create callback function
+        // create callback function
+        fun onClickSaveButton(position: Int)
     }
 }
 

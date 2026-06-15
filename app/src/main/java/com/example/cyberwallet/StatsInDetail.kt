@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.PieChart
@@ -19,15 +21,27 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import kotlin.getValue
+import kotlin.math.log
 
 
 class StatsInDetail : Fragment() {
 
     private val calendar = Calendar.getInstance()
+
+    // Dates Variables to store.
+
+//    val startsDay = cal.get(Calendar.DAY_OF_MONTH).toString()
+//    val startYear = cal.get(Calendar.YEAR).toString()
+//    val startMonth = cal.get(Calendar.MONTH).toString()
+//
+//    val startsDay = cal.get(Calendar.DAY_OF_MONTH).toString()
+//    val startYear = cal.get(Calendar.YEAR).toString()
+//    val startMonth = cal.get(Calendar.MONTH).toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +51,14 @@ class StatsInDetail : Fragment() {
         val view = inflater.inflate(R.layout.fragment_stats_in_detail,
             container, false)
 
+        val db = UserDatabase.getDatabase(requireContext().applicationContext)
+        val userDao = db.userDao()
+
+        val repository by lazy { UserRepository(db.userDao()) }
+        val viewModel: UserViewModel by activityViewModels{
+            MyViewModelFactory(repository)
+        }
+
 
 
 //        val back: Button = view.findViewById(R.id.backDashboard)
@@ -44,6 +66,93 @@ class StatsInDetail : Fragment() {
 //            val intent = Intent(requireContext(), Center::class.java)
 //            startActivity(intent)
 //        }
+
+
+        // Set a listener with a unique request key
+        setFragmentResultListener("FromLogIn") { requestKey, bundle ->
+            // Extract data from the bundle using its specific key
+            val resultString = bundle.getString("FromLogIn")
+            Log.d("passed","${resultString}" )
+            println(resultString)
+            // Use your data here
+
+            Log.d("data_received","received")
+        }
+
+
+
+
+        val startDate: TextView = view.findViewById(R.id.startDate)
+        val endDate: TextView = view.findViewById(R.id.endDate)
+
+        startDate.setOnClickListener {
+            //     Start Date, using Date picker
+//            showDatePicker()
+
+            val cal = Calendar.getInstance()
+            DatePickerDialog(requireContext(), { _, year, month, day ->
+                // Note: 'month' is still 0-indexed here
+                val dateString = "$day/${month + 1}/$year"
+                // Use dateString...
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+
+            val startsDay = cal.get(Calendar.DAY_OF_MONTH).toString()
+            val startYear = cal.get(Calendar.YEAR).toString()
+            val startMonth = cal.get(Calendar.MONTH + 1).toString()
+//            val month = cal.get(Calendar.MONTH).toString()
+
+            startDate.text = "${startsDay}/ ${startMonth} /${startYear}"
+
+
+            Log.d("date", startMonth + 1 + " " + startYear + " " + startsDay)
+
+        }
+
+        endDate.setOnClickListener {
+            //    End Date, using Date picker
+//            showDatePicker()
+
+
+            val cal = Calendar.getInstance()
+            DatePickerDialog(requireContext(), { _, year, month, day ->
+                // Note: 'month' is still 0-indexed here
+                val dateString = "$day/${month + 1}/$year"
+                // Use dateString...
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+
+            val endDay = cal.get(Calendar.DAY_OF_MONTH).toString()
+            val endYear = cal.get(Calendar.YEAR).toString()
+            val endMonth = cal.get(Calendar.MONTH +1 ).toString()
+//            val month = cal.get(Calendar.MONTH).toString()
+
+            endDate.text = "${endDay}/ ${endMonth} /${endYear}"
+
+            Log.d("date", endMonth + 1 + " " + endYear + " " + endMonth)
+
+        }
+
+
+        val search : ImageView = view.findViewById(R.id.searchRecords)
+
+        search.setOnClickListener {
+
+            // Search for the right records and display them here
+
+            //database query here using Dates
+            viewModel.getAllRecords.observe(viewLifecycleOwner) { users ->
+                // Update your UI components, like a RecyclerView adapter
+
+                for (i in users) {
+
+                    Log.d("work tryout ", "${i}")
+//                data.add(Item(R.drawable.add,
+//                    "${i.amount}","${i.description}"))
+
+                }
+            }
+        }
+
+
 
 
         val pieChart: PieChart = view.findViewById(R.id.pieChart_view)
@@ -76,12 +185,18 @@ class StatsInDetail : Fragment() {
 
         // Recycle view code Here
 
-        val db = UserDatabase.getDatabase(requireContext().applicationContext)
-        val userDao = db.userDao()
 
-        val repository by lazy { UserRepository(db.userDao()) }
-        val viewModel: UserViewModel by activityViewModels{
-            MyViewModelFactory(repository)
+
+        viewModel.getAllRecords.observe(viewLifecycleOwner) { users ->
+            // Update your UI components, like a RecyclerView adapter
+
+            for (i in users) {
+
+                Log.d("work tryout ", "${i}")
+//                data.add(Item(R.drawable.add,
+//                    "${i.amount}","${i.description}"))
+
+            }
         }
 
         // getting the recyclerview by its id
@@ -95,29 +210,19 @@ class StatsInDetail : Fragment() {
 
         // This loop will create 20 Views containing
         // the image with the count of view
-//        for (i in 1..20) {
-//            data.add(Item(R.drawable.add, "Item $i",target = "2000", amountSpent = "300"))
-//        }
 
-//        viewModel.allExpenses.observe(viewLifecycleOwner) { users ->
-//            // Update your UI components, like a RecyclerView adapter
-//
-//            for (i in users)  {
-//
-//                Log.d("work tryout ", "${i}")
-////                data.add(Item(R.drawable.add,
-////                    "Item","${i.categoryName}"))
-//
-//            }
-//
-////            users.forEach { i ->
-////                Log.d("work please ", "${i}")
-////
-////                data.add(Item(R.drawable.add,
-////                        "Item","${i.categoryName}"))
-////            }
-////            adapter.submitList(users)
-//        }
+
+        viewModel.getAllRecords.observe(viewLifecycleOwner) { users ->
+            // Update your UI components, like a RecyclerView adapter
+
+            for (i in users) {
+
+                Log.d("work tryout ", "${i}")
+                data.add(Item(R.drawable.add,
+                    "${i.amount}","${i.description}"))
+
+            }
+        }
 
 
         for (i in 1..1) {
@@ -134,47 +239,35 @@ class StatsInDetail : Fragment() {
 
 
 
-
-
-        val startDate: TextView = view.findViewById(R.id.startDate)
-        val endDate: TextView = view.findViewById(R.id.endDate)
-
-        startDate.setOnClickListener {
-          //     Start Date, using Date picker
-            showDatePicker()
-
-        }
-
-        endDate.setOnClickListener {
-            //    End Date, using Date picker
-            showDatePicker()
-
-        }
         return view
 
     }
-    private fun showDatePicker() {
-        // Create a DatePickerDialog
-        val datePickerDialog = DatePickerDialog(
-            requireContext(), { DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
-                // Create a new Calendar instance to hold the selected date
-                val selectedDate = Calendar.getInstance()
-                // Set the selected date using the values received from the DatePicker dialog
-                selectedDate.set(year, monthOfYear, dayOfMonth)
-                // Create a SimpleDateFormat to format the date as "dd/MM/yyyy"
-                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                // Format the selected date into a string
-                val formattedDate = dateFormat.format(selectedDate.time)
-                // Update the TextView to display the selected date with the "Selected Date: " prefix
-//                tvSelectedDate.text = "Selected Date: $formattedDate"
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        // Show the DatePicker dialog
-        datePickerDialog.show()
 
-    }
+
+//    private fun showDatePicker() {
+//        // Create a DatePickerDialog
+//        val datePickerDialog = DatePickerDialog(
+//            requireContext(), { DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+//                // Create a new Calendar instance to hold the selected date
+//                val selectedDate = Calendar.getInstance()
+//                // Set the selected date using the values received from the DatePicker dialog
+//                selectedDate.set(year, monthOfYear, dayOfMonth)
+//                // Create a SimpleDateFormat to format the date as "dd/MM/yyyy"
+//                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+//                // Format the selected date into a string
+//                val formattedDate = dateFormat.format(selectedDate.time)
+//                // Update the TextView to display the selected date with the "Selected Date: " prefix
+////                tvSelectedDate.text = "Selected Date: $formattedDate"
+//            },
+//            calendar.get(Calendar.YEAR),
+//            calendar.get(Calendar.MONTH),
+//            calendar.get(Calendar.DAY_OF_MONTH)
+//
+//
+//        )
+//        // Show the DatePicker dialog
+//        datePickerDialog.show()
+//
+//    }
 
 }

@@ -1,12 +1,16 @@
 package com.example.cyberwallet
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +19,7 @@ import kotlin.getValue
 
 class Statements : Fragment() {
 
-
+    var UserId: Int? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,13 +29,51 @@ class Statements : Fragment() {
             R.layout.fragment_statements,
             container, false)
 
+
+
+//        setFragmentResultListener("requestKey") { _, bundle ->
+//            val receivedData = bundle.getString("bundleKey")
+//            Log.d("User_in_statements", "${receivedData}")
+//        }
+//
+
+
+
+
         val db = UserDatabase.getDatabase(requireContext().applicationContext)
         val userDao = db.userDao()
 
         val repository by lazy { UserRepository(db.userDao()) }
-        val viewModel: UserViewModel by activityViewModels{
+        val viewModel: UserViewModel by viewModels{
             MyViewModelFactory(repository)
         }
+
+
+        viewModel.data.observe(viewLifecycleOwner) { message ->
+            // Handle your data here
+            println(message)
+            UserId == message
+            Log.d("UserId_in_stat", "${message}")
+
+        }
+        Log.d("UserId_out_stat", "${UserId}")
+
+
+//
+//        viewModel.data.observe(viewLifecycleOwner) { message ->
+//            // Handle your data here
+//            println(message)
+//
+//            UserId = message
+//            Log.d("UserId_in_statements", "${message}")
+//        }
+//        Log.d("UserId_out_statements", "${UserId}")
+
+
+
+
+
+
 
         // getting the recyclerview by its id
         val recyclerview: RecyclerView = view.findViewById(R.id.recyclerview)

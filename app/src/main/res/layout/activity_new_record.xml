@@ -11,6 +11,7 @@
 
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -30,8 +31,16 @@
             android:textColor="@color/white"
             android:textSize="30sp" />
 
-        <LinearLayout
+        <Switch
+            android:id="@+id/switchRec"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recurring ?"
+            android:textColor="@color/white"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,14 +48,32 @@
             app:layout_constraintStart_toStartOf="parent">
 
 
-            <EditText
-                android:id="@+id/amount"
-                android:layout_width="150dp"
-                android:layout_height="48dp"
-                android:ems="10"
-                android:hint="2000,00"
-                android:inputType="numberDecimal"
-                android:textColorHint="@color/white" />
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
+
+               <EditText
+                   android:id="@+id/amount"
+                   android:layout_width="150dp"
+                   android:layout_height="48dp"
+                   android:ems="10"
+                   android:hint="2000,00"
+                   android:inputType="numberDecimal"
+                   android:textColorHint="@color/white"
+                   android:textColor="@color/white"
+                   />
+
+               <EditText
+                   android:id="@+id/categoryName"
+                   android:layout_width="150dp"
+                   android:layout_height="48dp"
+                   android:ems="10"
+                   android:hint="Category Name"
+                   android:inputType="numberDecimal"
+                   android:textColorHint="@color/white"
+                   android:layout_marginLeft="40dp"/>
+           </LinearLayout>
 
             <EditText
                 android:id="@+id/Description"
@@ -55,37 +82,81 @@
                 android:ems="10"
                 android:hint="Descripton"
                 android:inputType="text"
-                android:textColorHint="@color/white" />
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"/>
 
             <LinearLayout
                 android:id="@+id/dates"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
 
-                <EditText
-                    android:id="@+id/startDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Start Date"
-                    android:inputType="date"
-                    android:textColorHint="@color/white" />
 
-                <EditText
-                    android:id="@+id/endDate"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="End Date"
-                    android:inputType="date"
-                    android:textColorHint="@color/white" />
+                    android:layout_gravity="center"
+                    >
+
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/startDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="Start Date:"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/date"/>
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/endDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="End Date:"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/date"/>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
             </LinearLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/extraInformation"
@@ -103,6 +174,7 @@
                     android:hint="Payer"
                     android:inputType="text"
                     android:textColorHint="@color/white"
+                    android:textColor="@color/white"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.095"
@@ -122,11 +194,91 @@
                     app:layout_constraintHorizontal_bias="0.094"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/payer"
-                    app:layout_constraintVertical_bias="0.203" />
+                    app:layout_constraintVertical_bias="0.203"
+                    android:textColor="@color/white"/>
+
+
+
+
+<!--                <RadioGroup-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/payer"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    android:layout_marginLeft="10dp">-->
+
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/Income"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Income"-->
+<!--                        android:textColor="@color/white"/>-->
+
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/Exspense"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Exspense"-->
+<!--                        android:textColor="@color/white"/>-->
+
+
+
+<!--                </RadioGroup>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
 
+                  <RadioGroup
+                      android:id="@+id/category"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintStart_toEndOf="@+id/payer"
+                      app:layout_constraintTop_toTopOf="parent"
+                      android:layout_marginLeft="10dp"
+                      android:orientation="horizontal">
+
+                      <RadioButton
+                          android:id="@+id/Transport"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Fun"
+                          android:textColor="@color/white"/>
+
+                      <RadioButton
+                          android:id="@+id/food"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Transport"
+                          android:textColor="@color/white"/>
+
+                      <RadioButton
+                          android:id="@+id/school"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Salary"
+                          android:textColor="@color/white"/>
+
+<!--                      <RadioButton-->
+<!--                          android:id="@+id/salary"-->
+<!--                          android:layout_width="wrap_content"-->
+<!--                          android:layout_height="wrap_content"-->
+<!--                          android:text="Exspense"-->
+<!--                          android:textColor="@color/white"/>-->
+
+
+
+                  </RadioGroup>
+
+
+              </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,6 +312,8 @@
 
 
             </LinearLayout>
+
+
 
         </LinearLayout>
 
