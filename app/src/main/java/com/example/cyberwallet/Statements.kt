@@ -90,11 +90,17 @@ class Statements : Fragment() {
 //            data.add(Item(R.drawable.add, "Item $i",target = "2000", amountSpent = "300"))
 //        }
 
-        for (i in 1..1) {
-            data.add(Item(R.drawable.add,
-                "Item", "New------")
-            )
-        }
+//        for (i in 1..1) {
+//            data.add(Item(R.drawable.add,
+//                "", "Income ")
+//            )
+        data.add(Item(R.drawable.add,
+            "", "Cash Flow ")
+        )
+        data.add(Item(R.drawable.add,
+            "", "Balance Sheet ")
+        )
+//        }
 
         // This will pass the ArrayList to our Adapter
         val adapter = Adapter(data)

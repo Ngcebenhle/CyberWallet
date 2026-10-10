@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 
-class LogInViewAdapter(activity: FragmentActivity, private val tabCount: Int):
+class  LogInViewAdapter(activity: FragmentActivity, private val tabCount: Int):
     FragmentStateAdapter(activity){
 
     override fun createFragment(p: Int): Fragment {

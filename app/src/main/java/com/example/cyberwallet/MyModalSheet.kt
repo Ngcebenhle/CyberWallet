@@ -18,6 +18,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 import java.util.Date
 import kotlin.getValue
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class MyModalSheet : BottomSheetDialogFragment() {
 
@@ -32,6 +34,14 @@ class MyModalSheet : BottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.layout_modal_bottom_sheet, container, false)
 
 
+        // 1. Get the current date
+        val currentDate = LocalDate.now()
+
+// 2. Define a readable format (e.g., "15-06-2026")
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+
+// 3. Format the date into a String
+        val formattedDate = currentDate.format(formatter)
 
         val db = UserDatabase.getDatabase(requireContext().applicationContext)
         val userDao = db.userDao()
@@ -85,7 +95,7 @@ class MyModalSheet : BottomSheetDialogFragment() {
                                     CategoryName = catName.text.toString(),
                                     MaxGoalAmount = max.text.toString().toInt(),
                                     MinGoalAmount = min.text.toString().toInt(),
-                                    dateCreated = ""
+                                    dateCreated = formattedDate.toString()
 
                                 ))
 

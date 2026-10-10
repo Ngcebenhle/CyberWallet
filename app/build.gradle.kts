@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.cyberwallet"
-        minSdk = 24
+        minSdk = 31
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -80,4 +80,10 @@ dependencies {
 
     implementation("androidx.fragment:fragment-ktx:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+
 }

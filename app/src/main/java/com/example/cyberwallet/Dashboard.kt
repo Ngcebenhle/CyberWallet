@@ -12,12 +12,17 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.getValue
 
 
@@ -83,12 +88,135 @@ class Dashboard : Fragment() {
 //        1. create a list of Entry Points (x,y)
         val entries = ArrayList<Entry>()
 
-        viewModel.getAllRecords.observe(viewLifecycleOwner){
-            rec ->
-            println(rec)
-            entries.add(Entry(0f,1f))
 
+
+
+//        for (i in 1..20){
+//            entries.add(Entry(i.toFloat(),i.toFloat()))
+//        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val roomData = db.userDao().getAllRec() // Background thread
+
+            withContext(Dispatchers.Main) {
+//                updateChart(roomData) // Main thread
+//                val me = roomData.map { i ->
+////                Entry(i.id.toFloat(), i.amount.toFloat())
+//                    Entry(i.id.toFloat(),i.amount.toFloat())
+                Log.d("recs","${roomData}")
+                viewModel.getAllRecords.observe(viewLifecycleOwner){
+                        rec ->
+                    Log.d("recs","${rec}")
+
+
+                    val me = rec.map { i ->
+//                Entry(i.id.toFloat(), i.amount.toFloat())
+                        Entry(i.id.toFloat(),i.amount.toFloat())
+
+                    }.sortedBy { it.x } // Always ensure they are sorted
+
+                    Log.d("me","${me}")
+//
+                    me.forEach { i ->
+                        Log.d("recs","${i}")
+                        entries.add(Entry(i.x,i.y))
+
+
+                    }
+
+//            if (!rec.isNullOrEmpty()) {
+//               rec.forEach { i->
+////
+//               }
+//           }
+
+                    val dataSet = LineDataSet(entries, "Progress")
+                    dataSet.setDrawCircles(true)
+                    dataSet.color = Color.LTGRAY
+                    dataSet.lineWidth = 0.8f
+
+                    // 1. Enable smooth cubic lines
+                    dataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+
+                    lineChart.animateX(1000)
+                    lineChart.setNoDataText("No Data Found")
+
+                    // 2. Adjust curvature intensity (0.05f to 1f)
+                    dataSet.cubicIntensity = 0.4f
+
+                    val xAxis: XAxis = lineChart.xAxis
+                    xAxis.setDrawGridLines(false) // Enable or disable X-axis grid lines
+                    xAxis.position = XAxis.XAxisPosition.BOTTOM
+//        xAxis.gridLineWidth = 5.0f               // Set the grid line thickness
+//        xAxis.gridColor = Color.BLUE           // Set the grid line color
+//        xAxis.enableGridDashedLine(10f, 5f, 0f)  // (lineLength, spaceLength, phase) for dashed lines
+
+
+                    val yAxis: YAxis = lineChart.axisLeft
+                    yAxis.setDrawGridLines(false)             // Enable or disable Y-axis grid lines
+                    lineChart.axisRight.setDrawLabels(false)//        yAxis.gridLineWidth = 1.0f               // Set thickness
+//        yAxis.gridColor = Color.LTGRAY           // Set color
+
+
+                    lineChart.axisLeft.setDrawGridLines(false)
+                    lineChart.axisRight.setDrawGridLines(false)
+
+
+
+//        3. Add the DataSet to the Chart
+                    lineChart.data = LineData(dataSet)
+                    lineChart.notifyDataSetChanged()
+                    lineChart.invalidate()
+
+
+
+                }
+
+            }
         }
+
+//        viewModel.getAllRecords.observe(viewLifecycleOwner){
+//            rec ->
+//            Log.d("recs","${rec}")
+//
+////            entries.add(Entry(rec[1].endday.toFloat(),rec[1].amount.toFloat()))
+////            entries.add(Entry(0f,1f))
+////            entries.add(Entry(1f,3f))
+//
+//
+//            val me = rec.map { i ->
+////                Entry(i.id.toFloat(), i.amount.toFloat())
+//                Entry(i.id.toFloat(),i.amount.toFloat())
+//
+//            }.sortedBy { it.x } // Always ensure they are sorted
+//
+//            Log.d("me","${me}")
+////
+//            me.forEach { i ->
+//                Log.d("recs","${i}")
+//                entries.add(Entry(i.x,i.y))
+//
+//
+//            }
+////            entries.add(Entry(1f,10f))
+////            entries.add(Entry(2f,30f))
+////            entries.add(Entry(3f,60f))
+////            entries.add(Entry(rec[1].endday.toFloat(),rec[1].amount.toFloat()))
+//
+//
+////            if (!rec.isNullOrEmpty()) {
+////               rec.forEach { i->
+//////                   Log.d("recs","${i}")
+////                   entries.add(Entry(i.startmonth.toFloat() + 1f,i.amount.toFloat() +2f))
+////               }
+////            }
+//
+//
+//
+//        }
+
+
+
 //        entries.add(Entry(0f,1f))
 //        entries.add(Entry(1f,3f))
 //        entries.add(Entry(2f,2f))
@@ -104,39 +232,6 @@ class Dashboard : Fragment() {
 
 
         // Wrap entries in a Dataset and customize the line
-        val dataSet = LineDataSet(entries, "Monthly Revenue")
-        dataSet.setDrawCircles(false)
-        dataSet.color = Color.LTGRAY
-        dataSet.lineWidth = 0.8f
-
-        // 1. Enable smooth cubic lines
-        dataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-
-        // 2. Adjust curvature intensity (0.05f to 1f)
-        dataSet.cubicIntensity = 0.4f
-
-        val xAxis: XAxis = lineChart.xAxis
-        xAxis.setDrawGridLines(false) // Enable or disable X-axis grid lines
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-//        xAxis.gridLineWidth = 5.0f               // Set the grid line thickness
-//        xAxis.gridColor = Color.BLUE           // Set the grid line color
-//        xAxis.enableGridDashedLine(10f, 5f, 0f)  // (lineLength, spaceLength, phase) for dashed lines
-
-
-        val yAxis: YAxis = lineChart.axisLeft
-        yAxis.setDrawGridLines(false)             // Enable or disable Y-axis grid lines
-        lineChart.axisRight.setDrawLabels(false)//        yAxis.gridLineWidth = 1.0f               // Set thickness
-//        yAxis.gridColor = Color.LTGRAY           // Set color
-
-
-        lineChart.axisLeft.setDrawGridLines(false)
-        lineChart.axisRight.setDrawGridLines(false)
-
-
-
-//        3. Add the DataSet to the Chart
-        lineChart.data = LineData(dataSet)
-        lineChart.invalidate()
 
 
 

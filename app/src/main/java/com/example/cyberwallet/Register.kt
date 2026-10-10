@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
@@ -59,9 +60,11 @@ class Register : Fragment() {
 
                         }
 
-                        //   Switch Activities
-                        val intent = Intent(requireContext(), Center::class.java)
-                        startActivity(intent)
+//                        //   Switch Activities
+//                        val intent = Intent(requireContext(), Center::class.java)
+//                        startActivity(intent)
+                        Toast.makeText(requireContext(), "Registerd, Now you can Log IN", Toast.LENGTH_SHORT).show()
+
                     }catch (e: Exception){
                         error.visibility = View.VISIBLE
                         error.text = "Failed To Register"

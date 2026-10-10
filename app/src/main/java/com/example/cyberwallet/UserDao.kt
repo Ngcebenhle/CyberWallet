@@ -28,9 +28,13 @@ interface UserDao {
     @Query("SELECT * FROM ExpensesTable WHERE startDate = :startDate AND endDate = :endDate")
     fun getAllRecWithDates(startDate: Date,endDate: Date ): Flow<List<ExpensesTable>>
 
+    @Query("SELECT * FROM ExpensesTable WHERE id = :id and startDate > :startSelectedDate AND endDate < :endSelectedDate ")
+    fun getAllRecByDates(id: Int,startSelectedDate: String,endSelectedDate: String ): Flow<List<ExpensesTable>>
+
 
     @Query("SELECT * FROM ExpensesTable")
     fun getAllRec(): Flow<List<ExpensesTable>>
+
 
     @Query("SELECT * FROM Caregories WHERE InorEx = :income ")
     fun getAllIncome(income: String = "Income"): Flow<List<Caregories>>

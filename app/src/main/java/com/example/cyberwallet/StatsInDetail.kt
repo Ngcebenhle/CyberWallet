@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
+import org.jetbrains.annotations.NotNull
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -32,6 +33,18 @@ import kotlin.math.log
 class StatsInDetail : Fragment() {
 
     private val calendar = Calendar.getInstance()
+
+    private var startSelectedDate: String? = null
+    private var endSelectedDate: String? = null
+
+    var startsDay: Int? = null
+    var startYear: Int? = null
+    var startMonth: Int? = null
+
+
+    var endDay: Int? = null
+    var endYear: Int? = null
+    var endMonth: Int? = null
 
     // Dates Variables to store.
 
@@ -51,6 +64,9 @@ class StatsInDetail : Fragment() {
         val view = inflater.inflate(R.layout.fragment_stats_in_detail,
             container, false)
 
+        val pieChart: PieChart = view.findViewById(R.id.pieChart_view)
+
+
         val db = UserDatabase.getDatabase(requireContext().applicationContext)
         val userDao = db.userDao()
 
@@ -68,43 +84,55 @@ class StatsInDetail : Fragment() {
 //        }
 
 
-        // Set a listener with a unique request key
-        setFragmentResultListener("FromLogIn") { requestKey, bundle ->
-            // Extract data from the bundle using its specific key
-            val resultString = bundle.getString("FromLogIn")
-            Log.d("passed","${resultString}" )
-            println(resultString)
-            // Use your data here
-
-            Log.d("data_received","received")
-        }
-
-
-
-
         val startDate: TextView = view.findViewById(R.id.startDate)
         val endDate: TextView = view.findViewById(R.id.endDate)
 
+
+
         startDate.setOnClickListener {
-            //     Start Date, using Date picker
-//            showDatePicker()
+            var selectedDateStr: String = ""
 
-            val cal = Calendar.getInstance()
-            DatePickerDialog(requireContext(), { _, year, month, day ->
-                // Note: 'month' is still 0-indexed here
-                val dateString = "$day/${month + 1}/$year"
-                // Use dateString...
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+          // 2. Get the current date to set as the default start date in the picker
 
-            val startsDay = cal.get(Calendar.DAY_OF_MONTH).toString()
-            val startYear = cal.get(Calendar.YEAR).toString()
-            val startMonth = cal.get(Calendar.MONTH + 1).toString()
-//            val month = cal.get(Calendar.MONTH).toString()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            startDate.text = "${startsDay}/ ${startMonth} /${startYear}"
+         // 3. Initialize and display the DatePickerDialog
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
+
+                    // Create a Calendar instance with the user's selected date
+                    val selectedCalendar = Calendar.getInstance()
+                    selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
+
+                    startMonth = selectedMonth +1
+                    startsDay = selectedDay
+                    startYear = selectedYear
 
 
-            Log.d("date", startMonth + 1 + " " + startYear + " " + startsDay)
+
+                    Log.d("date", "${endMonth}")
+
+                    // 4. Format the selected date and store it in your variable
+                    val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    selectedDateStr = simpleDateFormat.format(selectedCalendar.time)
+
+                    startSelectedDate = selectedDateStr
+                    // Optional: Use your variable immediately (e.g., display it in a TextView)
+                    startDate.text = selectedDateStr
+
+
+                },
+                year,
+                month,
+                day
+            )
+
+// Show the dialog window
+            datePickerDialog.show()
+
 
         }
 
@@ -113,80 +141,56 @@ class StatsInDetail : Fragment() {
 //            showDatePicker()
 
 
-            val cal = Calendar.getInstance()
-            DatePickerDialog(requireContext(), { _, year, month, day ->
-                // Note: 'month' is still 0-indexed here
-                val dateString = "$day/${month + 1}/$year"
-                // Use dateString...
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
 
-            val endDay = cal.get(Calendar.DAY_OF_MONTH).toString()
-            val endYear = cal.get(Calendar.YEAR).toString()
-            val endMonth = cal.get(Calendar.MONTH +1 ).toString()
-//            val month = cal.get(Calendar.MONTH).toString()
+            var selectedDateStr: String = ""
+            // 2. Get the current date to set as the default start date in the picker
 
-            endDate.text = "${endDay}/ ${endMonth} /${endYear}"
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            Log.d("date", endMonth + 1 + " " + endYear + " " + endMonth)
+                 // 3. Initialize and display the DatePickerDialog
+               val datePickerDialog = DatePickerDialog(
+                   requireContext(),
+                DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
+
+                    // Create a Calendar instance with the user's selected date
+                    val selectedCalendar = Calendar.getInstance()
+                    selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
+
+                    endMonth = selectedMonth +1
+                    endDay = selectedDay
+                    endYear = selectedYear
+
+
+                    Log.d("date", "${endMonth}")
+
+                    // 4. Format the selected date and store it in your variable
+                    val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    selectedDateStr = simpleDateFormat.format(selectedCalendar.time)
+
+                    endSelectedDate = selectedDateStr
+                    // Optional: Use your variable immediately (e.g., display it in a TextView)
+                    endDate.text = selectedDateStr
+
+
+                },
+                year,
+                month,
+                day
+            )
+
+// Show the dialog window
+            datePickerDialog.show()
+
+
 
         }
 
 
         val search : ImageView = view.findViewById(R.id.searchRecords)
 
-        search.setOnClickListener {
-
-            // Search for the right records and display them here
-
-            //database query here using Dates
-            viewModel.getAllRecords.observe(viewLifecycleOwner) { users ->
-                // Update your UI components, like a RecyclerView adapter
-
-                for (i in users) {
-
-                    Log.d("work tryout ", "${i}")
-//                data.add(Item(R.drawable.add,
-//                    "${i.amount}","${i.description}"))
-
-                }
-            }
-        }
-
-
-
-
-        val pieChart: PieChart = view.findViewById(R.id.pieChart_view)
-
-        // 1. Create Data Entries
-        val entries = ArrayList<PieEntry>()
-        entries.add(PieEntry(40f, "Android"))
-        entries.add(PieEntry(30f, "iOS"))
-        entries.add(PieEntry(20f, "Web"))
-        entries.add(PieEntry(10f, "Desktop"))
-
-        // 2. Create DataSet and Style it
-        val dataSet = PieDataSet(entries, "Platform Stats")
-        dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList() // Use built-in templates
-        dataSet.valueTextColor = Color.BLACK
-        dataSet.valueTextSize = 15f
-
-        // 3. Setup PieData and update Chart
-        val pieData = PieData(dataSet)
-        pieChart.data = pieData
-
-        // Optional Customization
-        pieChart.description.isEnabled = false // Hide description label
-        pieChart.centerText = "Platforms"      // Add center text
-        pieChart.animateY(1400)              // Add entry animation
-
-        pieChart.invalidate() // Refresh the chart
-
-
-
         // Recycle view code Here
-
-
-
         viewModel.getAllRecords.observe(viewLifecycleOwner) { users ->
             // Update your UI components, like a RecyclerView adapter
 
@@ -215,14 +219,100 @@ class StatsInDetail : Fragment() {
         viewModel.getAllRecords.observe(viewLifecycleOwner) { users ->
             // Update your UI components, like a RecyclerView adapter
 
+            // Search for the right records and display them here
+
+            //database query here using Dates
+
             for (i in users) {
 
                 Log.d("work tryout ", "${i}")
                 data.add(Item(R.drawable.add,
                     "${i.amount}","${i.description}"))
 
+                // 1. Create Data Entries
+                val entries = ArrayList<PieEntry>()
+
+                users.map { i->
+                    entries.add(PieEntry(i.amount.toFloat(), i.categoryName))
+                }
+
+
+
+//                entries.add(PieEntry(30f, "iOS"))
+//                entries.add(PieEntry(20f, "Web"))
+//                entries.add(PieEntry(10f, "Desktop"))
+
+                // 2. Create DataSet and Style it
+                val dataSet = PieDataSet(entries, "Finencial Stats")
+                dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList() // Use built-in templates
+                dataSet.valueTextColor = Color.BLACK
+                dataSet.valueTextSize = 15f
+
+                // 3. Setup PieData and update Chart
+                val pieData = PieData(dataSet)
+                pieChart.data = pieData
+
+                // Optional Customization
+                pieChart.description.isEnabled = false // Hide description label
+                pieChart.centerText = "Platforms"      // Add center text
+                pieChart.animateY(1400)              // Add entry animation
+
+                pieChart.invalidate() // Refresh the chart
+
+
             }
+
+            search.setOnClickListener {
+
+                if(startSelectedDate != "" && endSelectedDate != ""){
+                    viewModel.getAllRecords.observe(viewLifecycleOwner) { users ->
+                        // Update your UI components, like a RecyclerView adapter
+
+                        for (i in users) {
+
+                            Log.d("work tryout ", "${i}")
+//                data.add(Item(R.drawable.add,
+//                    "${i.amount}","${i.description}"))
+
+                            // 1. Create Data Entries
+                            val entries = ArrayList<PieEntry>()
+                            entries.add(PieEntry(40f, "Android"))
+                            entries.add(PieEntry(30f, "iOS"))
+                            entries.add(PieEntry(20f, "Web"))
+                            entries.add(PieEntry(10f, "Desktop"))
+
+                            // 2. Create DataSet and Style it
+                            val dataSet = PieDataSet(entries, "Finencial Stats")
+                            dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList() // Use built-in templates
+                            dataSet.valueTextColor = Color.BLACK
+                            dataSet.valueTextSize = 15f
+
+                            // 3. Setup PieData and update Chart
+                            val pieData = PieData(dataSet)
+                            pieChart.data = pieData
+
+                            // Optional Customization
+                            pieChart.description.isEnabled = false // Hide description label
+                            pieChart.centerText = "Platforms"      // Add center text
+                            pieChart.animateY(1400)              // Add entry animation
+
+                            pieChart.invalidate() // Refresh the chart
+
+                        }
+                    }
+                }
+                else{
+                    // tell the user to select dates
+                }
+
+
+
+            }
+
+
         }
+
+
 
 
         for (i in 1..1) {

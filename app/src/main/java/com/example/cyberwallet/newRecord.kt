@@ -39,23 +39,25 @@ import kotlin.getValue
 
 class newRecord : AppCompatActivity() {
 
-    private val calendar = Calendar.getInstance()
+//    private val calendar = Calendar.getInstance()
     private lateinit var takePictureLauncher: ActivityResultLauncher<Uri>
     private var imageUri: Uri? = null
 
     private var UserId: Int? = null
-    private var selectedDate: Date? = null
+    private var startSelectedDate: String? = null
+    private var endSelectedDate: String? = null
 
-    var startsDay: String? = null
-    var startYear: String? = null
-    var startMonth: String? = null
-
-
-    var endDay: String? = null
-    var endYear: String? = null
-    var endMonth: String? = null
+    var startsDay: Int? = null
+    var startYear: Int? = null
+    var startMonth: Int? = null
 
 
+    var endDay: Int? = null
+    var endYear: Int? = null
+    var endMonth: Int? = null
+
+
+    final val calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,21 +105,48 @@ class newRecord : AppCompatActivity() {
         startDate.setOnClickListener {
             //     Start Date, using Date picker
 //            showDatePicker()
+            var selectedDateStr: String = ""
 
-            val cal = Calendar.getInstance()
-            DatePickerDialog(this, { _, year, month, day ->
-                // Note: 'month' is still 0-indexed here
-                val dateString = "$day/${month + 1}/$year"
-                // Use dateString...
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+// 2. Get the current date to set as the default start date in the picker
 
-            startsDay = cal.get(Calendar.DAY_OF_MONTH).toString()
-             startYear = cal.get(Calendar.YEAR).toString()
-            startMonth = (cal.get(Calendar.MONTH ) + 1).toString()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            startDate.text = "${startsDay}/ ${startMonth} / ${startYear} "
+// 3. Initialize and display the DatePickerDialog
+            val datePickerDialog = DatePickerDialog(
+                this,
+                DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
 
-            Log.d("date", startMonth + " " + startYear + " " + startsDay)
+                    // Create a Calendar instance with the user's selected date
+                    val selectedCalendar = Calendar.getInstance()
+                    selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
+
+                    startMonth = selectedMonth +1
+                    startsDay = selectedDay
+                    startYear = selectedYear
+
+
+
+                    Log.d("date", "${endMonth}")
+
+                    // 4. Format the selected date and store it in your variable
+                    val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    selectedDateStr = simpleDateFormat.format(selectedCalendar.time)
+
+                    startSelectedDate = selectedDateStr
+                    // Optional: Use your variable immediately (e.g., display it in a TextView)
+                    startDate.text = selectedDateStr
+
+
+                },
+                year,
+                month,
+                day
+            )
+
+// Show the dialog window
+            datePickerDialog.show()
 
 //
 
@@ -128,22 +157,70 @@ class newRecord : AppCompatActivity() {
 //            showDatePicker()
 
 
-            val cal = Calendar.getInstance()
+
+            var selectedDateStr: String = ""
+
+// 2. Get the current date to set as the default start date in the picker
+
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+// 3. Initialize and display the DatePickerDialog
+            val datePickerDialog = DatePickerDialog(
+                this,
+                DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
+
+                    // Create a Calendar instance with the user's selected date
+                    val selectedCalendar = Calendar.getInstance()
+                    selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
+
+                    endMonth = selectedMonth +1
+                    endDay = selectedDay
+                    endYear = selectedYear
 
 
-            DatePickerDialog(this, { _, year, month, day ->
-                // Note: 'month' is still 0-indexed here
-                val dateString = "$day/${month + 1}/$year"
-                // Use dateString...
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+                    Log.d("date", "${endMonth}")
 
-            endDay = cal.get(Calendar.DAY_OF_MONTH).toString()
-            endYear = cal.get(Calendar.YEAR).toString()
-            endMonth = (cal.get(Calendar.MONTH ) + 1).toString()
+                    // 4. Format the selected date and store it in your variable
+                    val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    selectedDateStr = simpleDateFormat.format(selectedCalendar.time)
 
-            endDate.text = "${endDay}/${endMonth}/ ${endYear}"
+                    endSelectedDate = selectedDateStr
+                    // Optional: Use your variable immediately (e.g., display it in a TextView)
+                    endDate.text = selectedDateStr
 
-            Log.d("date", endMonth+ " " + endYear + " " + endMonth)
+
+                },
+                year,
+                month,
+                day
+            )
+
+// Show the dialog window
+            datePickerDialog.show()
+
+
+            Log.d("date", "${endSelectedDate}")
+            println("date"+ selectedDateStr)
+
+
+//            val cal = Calendar.getInstance()
+//
+//
+//            DatePickerDialog(this, { _, year, month, day ->
+//                // Note: 'month' is still 0-indexed here
+//                val dateString = "$day/${month + 1}/$year"
+//                // Use dateString...
+//            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+//
+//            endDay = cal.get(Calendar.DAY_OF_MONTH).toString()
+//            endYear = cal.get(Calendar.YEAR).toString()
+//            endMonth = (cal.get(Calendar.MONTH ) + 1).toString()
+//
+//            endDate.text = "${endDay}/${endMonth}/ ${endYear}"
+//
+//            Log.d("date", endMonth+ " " + endYear + " " + endMonth)
 
         }
 
@@ -173,20 +250,16 @@ class newRecord : AppCompatActivity() {
         saveButton.setOnClickListener {
 
             Log.d("save ", "Start Saved")
-//
-             val startdateconv = startYear+startMonth+startsDay
-            val StartD:Long = startdateconv.toLong()
-//
-            val enddateconv = endYear+endMonth+endDay
-            val endD:Long = enddateconv.toLong()
+
+
 
             viewModel.insertExpense(
                 ExpensesTable(
                     userID = id.toString().toInt(),
                     amount = amount.text.toString().toInt(),
                     categoryName = Category.text.toString(),
-                    startDate = Date(StartD),
-                    endDate = Date(endD),
+                    startDate = startSelectedDate.toString(),
+                    endDate = endSelectedDate.toString(),
                     description = description.text.toString(),
                     payer = payer.text.toString(),
                     account = account.text.toString().toInt(),

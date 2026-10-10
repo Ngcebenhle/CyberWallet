@@ -137,8 +137,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:layout_height="250dp"
+        android:padding="10dp"
+       >
 
 
         <androidx.cardview.widget.CardView
@@ -146,6 +147,117 @@
             android:layout_height="157dp"
             android:alpha="0.5"
             app:cardCornerRadius="15dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:orientation="vertical"
+                android:padding="7dp"
+
+
+                >
+
+                <LinearLayout
+                    android:id="@+id/LogoAndMenuIcon1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/billLogo1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:src="@drawable/mtn"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="2dp" />
+
+                    <!--              Icon here-->
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MTN"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="3dp"
+
+                    />
+
+
+                    <TextView
+                        android:id="@+id/billDescription1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="So in her would go the discription of the Bill..."
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="3dp"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/billdate1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="MTN"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="3dp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/billAmount1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="R 200.00"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:layout_marginRight="3dp"
+
+                        />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="157dp"
+            android:alpha="0.5"
+            app:cardCornerRadius="15dp"
+            android:layout_marginLeft="20dp"
             >
 
             <LinearLayout
@@ -170,7 +282,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_margin="3dp"
-                        android:src="@drawable/profile_image"
+                        android:src="@drawable/net"
                         app:civ_border_color="#FF000000"
                         app:civ_border_width="2dp" />
 
@@ -190,13 +302,13 @@
                         android:id="@+id/BillLogo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MTN"
+                        android:text="Netflix"
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:layout_marginLeft="3dp"
 
-                    />
+                        />
 
 
                     <TextView
@@ -223,7 +335,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="MTN"
+                        android:text="Netflix"
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:layout_marginLeft="3dp"
@@ -234,7 +346,7 @@
                         android:id="@+id/billAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="R 200.00"
+                        android:text="R 300.00"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:layout_marginRight="3dp"
@@ -248,6 +360,12 @@
 
 
         </androidx.cardview.widget.CardView>
+
+
+
+
+
+
 
 
 

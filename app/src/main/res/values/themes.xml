@@ -6,4 +6,20 @@
     </style>
 
     <style name="Theme.CyberWallet" parent="Base.Theme.CyberWallet" />
+
+<!--    <style name="Theme.AppCompat.Splashscreen" parent="Theme.AppCompat.Splashscreen" tools:ignore="ResourceCycle">-->
+
+<!--        <item name="android:windowSplashScreenBackground">@color/white</item>-->
+<!--    </style>-->
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Background color of the splash screen -->
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">@color/white</item>
+
+        <!-- App icon centered in the middle of the window -->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo</item>
+
+        <!-- Target application theme to apply right after the splash finishes -->
+        <item name="postSplashScreenTheme">@style/Theme.CyberWallet</item>
+    </style>
 </resources>
