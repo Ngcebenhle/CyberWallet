@@ -24,7 +24,6 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
     }
 
-
     fun insertExpense(ExpensesTable: ExpensesTable) {
         viewModelScope.launch {
             repository.insertExpense(ExpensesTable)

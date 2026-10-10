@@ -10,7 +10,7 @@ class RetrofitInstance {
         .setLenient()
         .create()
     private val retrofit by lazy {
-        Retrofit.Builder().baseUrl("http://192.168.0.99:3000/api/restaurant/")
+        Retrofit.Builder().baseUrl("http://192.168.0.39:3000/api/restaurant/")
             .addConverterFactory(GsonConverterFactory.create(lenientGson))
             .build()
     }
@@ -19,3 +19,5 @@ class RetrofitInstance {
         retrofit.create(ApiServices::class.java)
     }
 }
+
+//192.168.0.39
