@@ -5,18 +5,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitInstance {
-    // 1. Create a lenient Gson instance
-    val lenientGson = GsonBuilder()
-        .setLenient()
-        .create()
-    private val retrofit by lazy {
-        Retrofit.Builder().baseUrl("http://192.168.0.39:3000/api/restaurant/")
-            .addConverterFactory(GsonConverterFactory.create(lenientGson))
-            .build()
-    }
+    object RetrofitIN {
 
-    val apiInterface by lazy {
-        retrofit.create(ApiServices::class.java)
+        val lenientGson = GsonBuilder()
+            .setLenient()
+            .create()
+        private const val BASE_URL = "http://192.168.0.39:5000/api/"
+
+        val api: ApiServices by lazy {
+            Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(lenientGson))
+                .build()
+                .create(ApiServices::class.java)
+
+        }
     }
 }
 

@@ -10,8 +10,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import kotlin.getValue
 
 
 class Register : Fragment() {
@@ -26,6 +28,13 @@ class Register : Fragment() {
 
         val db = UserDatabase.getDatabase(requireContext().applicationContext)
         val userDao = db.userDao()
+        val retrofitApi = RetrofitInstance.RetrofitIN.api
+//        db.userDao(), api = retrofitApi
+
+        val repository by lazy { UserRepository(db.userDao(), api = retrofitApi) }
+        val viewModel: UserViewModel by activityViewModels{
+            MyViewModelFactory(repository)
+        }
 
         val email: EditText = view.findViewById(R.id.email)
         val username: EditText = view.findViewById(R.id.username)
@@ -43,12 +52,21 @@ class Register : Fragment() {
 //            Handles Exceptions try catch block.
 
             try {
-                //        Data Validation And Encryption.
 
+
+                //        Data Validation And Encryption.
                 if (email.text.toString() != ""
                     && password.text.toString() != ""
                     && username.text.toString() != ""  ){
 
+                    lifecycleScope.launch {
+                        viewModel.signUp(
+                            backendUserNodejs(email.text.toString(),
+                                username.text.toString(),
+                                "user",
+                                password.text.toString())
+                        )
+                    }
                      //  Then Continue here with registration and move to the next activity.
 
                     try {
@@ -78,21 +96,9 @@ class Register : Fragment() {
             } catch (e: Exception) {
 
 
-
             }
 
-
-
-
-
-
         }
-
-
-
-
-
-
 
         return view
     }

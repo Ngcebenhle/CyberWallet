@@ -42,8 +42,10 @@ class Statements : Fragment() {
 
         val db = UserDatabase.getDatabase(requireContext().applicationContext)
         val userDao = db.userDao()
+        val retrofitApi = RetrofitInstance.RetrofitIN.api
 
-        val repository by lazy { UserRepository(db.userDao()) }
+
+        val repository by lazy { UserRepository(db.userDao(), api = retrofitApi) }
         val viewModel: UserViewModel by viewModels{
             MyViewModelFactory(repository)
         }
