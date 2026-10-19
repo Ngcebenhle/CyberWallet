@@ -14,3 +14,15 @@ data class backendUserNodejsResponse(
 
 )
 
+data class backendUserNodejsLogInResponse(
+    val token: String,
+    val refresh_token: String,
+
+    )
+
+data class backendUserNodejslogin(
+    val email: String,
+    val password: String,
+
+    )
+

@@ -61,10 +61,11 @@ class Register : Fragment() {
 
                     lifecycleScope.launch {
                         viewModel.signUp(
-                            backendUserNodejs(email.text.toString(),
-                                username.text.toString(),
-                                "user",
-                                password.text.toString())
+                            username.text.toString(),
+                                email.text.toString(),
+                            password.text.toString(),
+                            "user"
+
                         )
                     }
                      //  Then Continue here with registration and move to the next activity.

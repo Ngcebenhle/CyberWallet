@@ -33,9 +33,26 @@ class UserRepository(private val userDao: UserDao, private val api: ApiServices)
        return RetrofitInstance.RetrofitIN.api.Test()
     }
 
-    suspend fun signUp(request : backendUserNodejs): Response<backendUserNodejsResponse>{
-        return RetrofitInstance.RetrofitIN.api.signup(request)
+    suspend fun signUp(name : String, email : String, password : String, type : String): Response<backendUserNodejsResponse>{
+        return RetrofitInstance.RetrofitIN.api.signup(name,email,password,type)
     }
+
+    suspend fun logIn( email : String, password : String ) : Response<backendUserNodejsLogInResponse>{
+        return RetrofitInstance.RetrofitIN.api.logIn(email, password)
+    }
+
+    suspend fun logIn2(email: String,password: String) : Response<backendUserNodejsLogInResponse>{
+        return RetrofitInstance.RetrofitIN.api.logIn2(email, password)
+    }
+
+//    suspend fun AddExpenses(name : String, email : String, password : String, type : String): Response<backendUserNodejsResponse>{
+//        return RetrofitInstance.RetrofitIN.api.AddExpenses(name,email,password,type)
+//    }
+//
+//    suspend fun Addincome(name : String, email : String, password : String, type : String): Response<backendUserNodejsResponse>{
+//        return RetrofitInstance.RetrofitIN.api.Addincome(name,email,password,type)
+//    }
+
 
 
 

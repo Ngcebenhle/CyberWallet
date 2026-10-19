@@ -57,7 +57,7 @@ class LogIn : Fragment() {
         login.setOnClickListener {
 
 
-            viewModel.Test()
+//            viewModel.Test()
             // Handles Exceptions try catch block.
 
             try {
@@ -69,11 +69,17 @@ class LogIn : Fragment() {
                 if (email.text.toString() != "" && password.text.toString() != "") {
 //                    Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
 
+
+
                     Log.d("work tryout ","All Fields Filled")
 
 //                Retrive from Database
 
                     lifecycleScope.launch {
+
+
+
+                        viewModel.login(email = email.text.toString(), password = password.text.toString() )
 
                         val user = userDao.logIn(Email = email.text.toString(),
                             Password = password.text.toString() )

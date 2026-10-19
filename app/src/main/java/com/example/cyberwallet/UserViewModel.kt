@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import okhttp3.Request
 import okhttp3.Response
 
 
@@ -50,15 +51,15 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
     }
 
-       fun signUp(backendUserNodejs: backendUserNodejs)  {
+       fun signUp(name : String, email : String, password : String, type : String)  {
 
         viewModelScope.launch {
 
 
             try {
-                val response = repository.signUp(backendUserNodejs)
+                val response = repository.signUp(name,email,password,type)
                 if (response.isSuccessful && response.body() != null) {
-//                    println("this is nodejs response" + response.body()
+                    println("this is nodejs response" + response.body())
 
                 } else {
                     println("Error1" + response.errorBody()?.string())
@@ -71,6 +72,44 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
     }
 
+       fun login(email : String, password : String)  {
+
+        viewModelScope.launch {
+
+            try {
+                val response = repository.logIn(email,password)
+                if (response.isSuccessful && response.body() != null) {
+                    println("response" + response.body())
+
+                } else {
+                    println("Error1" + response.errorBody()?.string())
+                }
+            } catch (e: Exception) {
+                println( "Error2")
+            }
+        }
+
+
+    }
+
+    fun login2(email: String, password: String)  {
+
+        viewModelScope.launch {
+            try {
+                val response = repository.logIn2(email,password)
+                if (response.isSuccessful && response.body() != null) {
+                    println("this is nodejs response" + response.body())
+
+                } else {
+                    println("Error1" + response.errorBody()?.string())
+                }
+            } catch (e: Exception) {
+                println( "Error2")
+            }
+        }
+
+
+    }
 
         val allExpenses: LiveData<List<Caregories>> = repository.allExpenses.asLiveData()
 
