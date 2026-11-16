@@ -1,3 +1,20 @@
+Links: 
+Website Github
+GitHub - Lethabo-ops814/CyberWalletWeb · GitHub
+
+App Github
+https://github.com/Ngcebenhle/CyberWallet 
+
+Azure
+https://dev.azure.com/ST103116400192/CyberWallet 
+
+Video
+
+https://www.dropbox.com/scl/fi/qhf8afupnslksmmfwa6ox/on-pc.mp4?rlkey=a5btwe59n4i8k87s3m8wv6m6c&st=y72mvto7&dl=0 
+
+
+
+
 2.1 Introduction
 Cyber Wallet is a digital financial management system. It is made up of two parts: a website that people open in a browser and a mobile application that people install on their phone. Both parts connect to the same backend and the same database, so a person who records a payment on the app will see it on the website, and the other way around.
 The idea behind Cyber Wallet is simple. Most people earn money, spend money and want to know where it went. Many of them still keep this information in notebooks, bank messages, spreadsheets or in their heads. When it is time to check a balance, prepare a statement or speak to an accountant, the information is scattered and hard to find. Cyber Wallet puts all of it in one place.
